@@ -26,6 +26,11 @@ public class SignUpPage extends BasePage{
     @FindBy(xpath = "//label[@for='terms-of-use']")
     WebElement checkBoxIAgree;
 
+    @FindBy(css = "button[type='submit']")
+    WebElement btnYalla;
+    @FindBy(xpath = "//mat-dialog-container//h2")
+    WebElement textDialogContainer;
+
 
 
     public void typeLoginForm(User user) {
@@ -40,10 +45,19 @@ public class SignUpPage extends BasePage{
     }
 
     public void clickCheckBoxWithActions(){
-        Actions actions = new Actions(driver);
-        actions.moveToElement(checkBoxIAgree, -50, 0).click().perform();
+        int y = checkBoxIAgree.getSize().getHeight();
+        int x = checkBoxIAgree.getSize().getWidth();
+        System.out.println(x+"X"+y);
 
-        //checkBoxIAgree.getSize().getHeight()
-        //checkBoxIAgree.getSize().getWidth()
+        Actions actions = new Actions(driver);
+        actions.moveToElement(checkBoxIAgree, -(x/10*4), -(y/4)).click().perform();
+    }
+
+    public void clickBtnYalla(){
+        btnYalla.click();
+    }
+
+    public boolean isTextDialogContainerPresent(){
+        return elementIsDisplayed(textDialogContainer);
     }
 }
