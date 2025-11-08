@@ -6,9 +6,11 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import pages.HomePage;
 import pages.LoginPage;
+import utils.RetryAnalyzer;
 
 public class LoginTests extends ApplicationManager {
-    @Test
+
+    @Test(retryAnalyzer = RetryAnalyzer.class)
     public void loginPositiveTest(){
         User user = User.builder()
                 .username("bilbo_baggins_12345@mail.com")

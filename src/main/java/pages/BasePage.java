@@ -1,9 +1,14 @@
 package pages;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import utils.enums.HeaderMenuItem;
 
+import java.time.Duration;
 import java.util.List;
 
 public abstract class BasePage {
@@ -28,5 +33,30 @@ public abstract class BasePage {
 
     public boolean elementIsDisplayed(WebElement element) {
         return element.isDisplayed();
+    }
+
+    public <T extends BasePage> T clickButtonHeader(HeaderMenuItem item){
+        WebElement button = new WebDriverWait(driver, Duration.ofSeconds(10))
+                .until(ExpectedConditions
+                        .elementToBeClickable(By.xpath(item.getLocator())));
+        button.click();
+        switch (item){
+            case LOGIN -> {
+                return (T) new LoginPage(driver);
+            }
+            case SIGNUP -> {
+                return (T) new SignUpPage(driver);
+            }
+            case SEARCH -> {
+                return (T) new HomePage(driver);
+            }
+            case TERMS_OF_USE -> {
+                return (T) new TermsOfUsePage(driver);
+            }
+            case LET_THE_CAR_WORK -> {
+                return (T) new LetTheCarWorkPage(driver);
+            }
+            default -> throw  new IllegalArgumentException("Invalid parameter");
+        }
     }
 }
