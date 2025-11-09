@@ -1,6 +1,7 @@
 package pages;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -21,11 +22,11 @@ public abstract class BasePage {
     @FindBy(css = "div[class='error']")
     List<WebElement> listErrorElements;
 
-    public boolean isTextInErrorPresent(String text){
-        if(listErrorElements == null || listErrorElements.isEmpty())
+    public boolean isTextInErrorPresent(String text) {
+        if (listErrorElements == null || listErrorElements.isEmpty())
             return false;
-        for (WebElement element:listErrorElements){
-            if(element.getText().contains(text))
+        for (WebElement element : listErrorElements) {
+            if (element.getText().contains(text))
                 return true;
         }
         return false;
@@ -35,12 +36,12 @@ public abstract class BasePage {
         return element.isDisplayed();
     }
 
-    public <T extends BasePage> T clickButtonHeader(HeaderMenuItem item){
+    public <T extends BasePage> T clickButtonHeader(HeaderMenuItem item) {
         WebElement button = new WebDriverWait(driver, Duration.ofSeconds(10))
                 .until(ExpectedConditions
                         .elementToBeClickable(By.xpath(item.getLocator())));
         button.click();
-        switch (item){
+        switch (item) {
             case LOGIN -> {
                 return (T) new LoginPage(driver);
             }
@@ -56,7 +57,30 @@ public abstract class BasePage {
             case LET_THE_CAR_WORK -> {
                 return (T) new LetTheCarWorkPage(driver);
             }
-            default -> throw  new IllegalArgumentException("Invalid parameter");
+            default -> throw new IllegalArgumentException("Invalid parameter");
+        }
+    }
+
+    static void pause(int time) {
+        try {
+            Thread.sleep(time * 1000L);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    void clickWait(WebElement element, int time) {
+        new WebDriverWait(driver, Duration.ofSeconds(time))
+                .until(ExpectedConditions.elementToBeClickable(element)).click();
+    }
+
+    public boolean urlContains(String fraction, int time) {
+        try {
+            return new WebDriverWait(driver, Duration.ofSeconds(time))
+                    .until(ExpectedConditions.urlContains(fraction));
+        }catch (TimeoutException e){
+            e.printStackTrace();
+            return false;
         }
     }
 }
