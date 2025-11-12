@@ -3,13 +3,16 @@ package ui_tests;
 import dto.User;
 import manager.ApplicationManager;
 import org.testng.Assert;
+import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 import pages.HomePage;
 import pages.LoginPage;
 import utils.RetryAnalyzer;
+import utils.TestNGListener;
 
 import java.lang.reflect.Method;
 
+@Listeners(TestNGListener.class)
 public class LoginTests extends ApplicationManager {
 
     @Test(retryAnalyzer = RetryAnalyzer.class)

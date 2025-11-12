@@ -4,12 +4,15 @@ import dto.User;
 import manager.ApplicationManager;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 import pages.HomePage;
 import pages.SignUpPage;
+import utils.TestNGListener;
 
 import static utils.UserFactory.*;
 
+@Listeners(TestNGListener.class)
 public class SignUpTests extends ApplicationManager {
 
     SignUpPage signUpPage;
