@@ -15,7 +15,7 @@ import java.lang.reflect.Method;
 @Listeners(TestNGListener.class)
 public class LoginTests extends ApplicationManager {
 
-    @Test(retryAnalyzer = RetryAnalyzer.class)
+    @Test//(retryAnalyzer = RetryAnalyzer.class)
     public void loginPositiveTest(Method method){
         User user = User.builder()
                 .username("bilbo_baggins_12345@mail.com")
@@ -25,7 +25,7 @@ public class LoginTests extends ApplicationManager {
         new HomePage(getDriver()).clickBtnLoginHeader();
         LoginPage loginPage = new LoginPage(getDriver());
         loginPage.typeLoginForm(user);
-        logger.error("Example error");
+        //logger.error("Example error");
         Assert.assertTrue(loginPage.isLoggedDisplayed());
     }
 

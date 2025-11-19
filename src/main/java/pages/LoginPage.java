@@ -29,6 +29,8 @@ public class LoginPage extends BasePage{
     @FindBy(xpath = "//h2[contains(text(),'Login or Password incorrect')]")
     WebElement popUpTextLoggedIncorrect;
 
+
+
     public void typeLoginForm(User user){
         inputEmail.sendKeys(user.getUsername());
         inputPassword.sendKeys(user.getPassword());
@@ -41,5 +43,10 @@ public class LoginPage extends BasePage{
 
     public boolean isLoggedIncorrect(){
         return elementIsDisplayed(popUpTextLoggedIncorrect);
+    }
+
+    public void clickBtnOk() {
+        //clickWait(btnOkPopUp, 3);
+        btnOkPopUp.click();
     }
 }
